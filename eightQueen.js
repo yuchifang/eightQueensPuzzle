@@ -12,24 +12,25 @@
 //做法1 邊填邊限制
 
 
+// 如果 沒有 就不遞迴
 function queens(number) {
     let isValidCache = isValid()
     let total = []
-    while (number > 0) {
+    let totalCount = number
+    while (totalCount > 0) {
         let answer = []
         for (let column = 0; column < number; column++) {
             let columnArr = []
+            answer.push(columnArr)
             for (let row = 0; row < number; row++) {
                 if (isValidCache(column, row, number)) {
                     columnArr.push(1)
                 } else {
-
                     columnArr.push(0)
                 }
             }
-            answer.push(columnArr)
         }
-        number--
+        totalCount--
         total.push(answer)
     }
     return total
@@ -38,7 +39,14 @@ function queens(number) {
 function isValid() {
     let cacheColumn = {}
     let cacheRow = {}
+    let count = 0
     function cache(column, row, number) {
+        if (count === number * number) {
+            count = 0
+            cacheColumn = {}
+            cacheRow = {}
+        }
+        count++
         if (cacheColumn[column] === undefined && cacheRow[row] === undefined) {
             cacheColumn[column] = 1
             cacheRow[row] = 1
