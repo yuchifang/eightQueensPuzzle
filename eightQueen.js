@@ -16,21 +16,25 @@
 function queens(number) {
     let isValidCache = isValid()
     let total = []
-    let totalCount = number
-    while (totalCount > 0) {
+    let totalCount = 0
+    while (totalCount < number) {
         let answer = []
         for (let column = 0; column < number; column++) {
             let columnArr = []
-            answer.push(columnArr)
-            for (let row = 0; row < number; row++) {
+
+            for (let i = 0; i < totalCount; i++) { //空格
+                columnArr.push(0)
+            }
+            for (let row = totalCount; row < number; row++) {
                 if (isValidCache(column, row, number)) {
                     columnArr.push(1)
                 } else {
                     columnArr.push(0)
                 }
             }
+            answer.push(columnArr)
         }
-        totalCount--
+        totalCount++
         total.push(answer)
     }
     return total
@@ -41,6 +45,8 @@ function isValid() {
     let cacheRow = {}
     let count = 0
     function cache(column, row, number) {
+        // 紀錄組合
+        // 
         if (count === number * number) {
             count = 0
             cacheColumn = {}
